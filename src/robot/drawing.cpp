@@ -19,7 +19,7 @@ JointSpace targetPose = {THETA1_OFFSET, 0.0};//initial setpoint
 JointSpace pose = {THETA1_OFFSET, 0}; //current angles on the robot
 
 TaskSpace initialXY = {0, L1 + L2}; //initial position of end effector
-TaskSpace nominalXY = {0, (L1 + L2)/2}; //nominal position of end effector
+TaskSpace nominalXY = {0, (L1 + L2)*0.6}; //nominal position of end effector
 TaskSpace targetXY = nominalXY; //where we want the end effector to go
 TaskSpace actualXY; //where the end effector actually is
 
@@ -91,5 +91,6 @@ void loop() {
 JointSpace poseLimit(JointSpace pose){
     pose.theta1 = constrain(pose.theta1, -THETA1_MAX + THETA1_OFFSET, THETA1_MAX + THETA1_OFFSET);
     pose.theta2 = constrain(pose.theta2, -THETA2_MAX, THETA2_MAX);
+    pose.theta2 = constrain(pose.theta2, -THETA2_MAX/2-pose.theta1 + THETA1_OFFSET, THETA2_MAX/2+pose.theta1 + THETA1_OFFSET);
     return pose;
 }

@@ -33,7 +33,7 @@ TaskSpace updateSetpoint(TaskSpace nominalPosition , TrajectoryType trajectoryTy
     switch (trajectoryType)
     {
     case HORIZONTAL_LINE:
-        return horizontalLine(nominalPosition, 0.5, 10, time);
+        return horizontalLine(nominalPosition, 0.5, 20, time);
         break;
     case VERTICAL_LINE:
         return verticalLine(nominalPosition, 0.5, 10, time);
