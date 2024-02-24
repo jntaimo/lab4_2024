@@ -2,9 +2,9 @@
 #define KINEMATICS_H
 
 #include <math.h>
-
-# define L1 16.9 // cm
-# define L2 20.9 // cm
+# define L_HOLE 2.4 // (cm) distance between large holes
+# define L1 L_HOLE*7 // cm
+# define L2 L_HOLE*9 // cm
 
 #define THETA1_OFFSET M_PI/2.0
 
