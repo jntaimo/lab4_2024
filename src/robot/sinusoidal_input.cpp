@@ -10,8 +10,8 @@
 //#define SerialMonitor
 #define MatlabPlot
 
-#define MOTOR1
-//#define MOTOR2
+//#define MOTOR1
+#define MOTOR2
 
 #ifdef MOTOR1
     #define Ti1 0.0183
@@ -33,10 +33,10 @@
 
 #ifdef MOTOR2
     // put your gains here!
-    #define Ti2 0.0953
-    #define Td2 0.0038
-    #define Kp2 12.7
-    #define alpha2 2
+    #define Ti2 0.0275
+    #define Td2 0.0032
+    #define Kp2 10
+    #define alpha2 1
     MotorDriver motor2(DIR2, PWM2, 1);  
     EncoderVelocity encoder(ENCODER2_A_PIN, ENCODER2_B_PIN, CPR_60_RPM, 0.2);
     LeadLagFilter leadLag2(alpha2, Td2, Ti2);
@@ -45,8 +45,8 @@
     double controlEffort2 = 0;
     #define MAX_FREQ_2 15 //rad/s
     #define MAX_AMPLITUDE_2 M_PI/4 //rad
-    double freq2 = 0;
-    double amplitude2 = 0;
+    double freq2 = MAX_FREQ_2/2;
+    double amplitude2 = MAX_AMPLITUDE_2/6;
 
 #endif
 
@@ -80,7 +80,7 @@ void loop() {
             motor1.drive(controlEffort1);
         #endif
         #ifdef MOTOR2
-            position2 = encoder.getPosition();
+            position2 = -encoder.getPosition();
             controlEffort2 = Kp2*leadLag2.calculate(setpoint2-position2);
             motor2.drive(controlEffort2);
         #endif
@@ -91,8 +91,14 @@ void loop() {
             // Print values to serial monitor
             #ifdef SerialMonitor
             // Print values to serial monitor
+            #ifdef MOTOR1
                 Serial.printf("Setpoint (rad): %.2f, Position (rad): %.2f, Control Effort: %.2f\n",
-                          setpoint, position, controlEffort);
+                          setpoint1, position1, controlEffort1);
+            #endif
+            #ifdef MOTOR2
+                Serial.printf("Setpoint (rad): %.2f, Position (rad): %.2f, Control Effort: %.2f\n",
+                          setpoint2, position2, controlEffort2);
+            #endif
             #endif
 
             #ifdef MatlabPlot
